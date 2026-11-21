@@ -2,10 +2,15 @@
 
 ## Requirements
 
-We include the `requirements.txt` file to clone our python environment. Simply run
+We include the `requirements.txt` file to clone our python environment (CPU-only, works on Windows/macOS/Linux, tested with Python 3.12). Simply run
 ```
 pip install -r requirements.txt
 ```
+For GPU / HPC runs (Linux with CUDA 12.4) use
+```
+pip install -r requirements-gpu.txt
+```
+and pass `--use_gpu` to training. Without CUDA, `--use_gpu` falls back to the CPU.
 
 ## Usage
 
@@ -27,6 +32,22 @@ Trained models can be evaluated by
 python main_eval.py --model_path <MODEL_PATH> --save_path <SAVE_PATH>
 ```
 which will load all trained models in the `<MODEL_PATH>` directory and evaluate them in terms of state space divergence and average hellinger distance. The results will be saved to a file in `<SAVE_PATH>`.
+
+## Repository layout (this fork)
+
+The authors' flat layout (`main.py`, `model.py`, `bptt.py`, `schemes/`, `eval/`, ...) is kept
+unchanged so that upstream updates merge cleanly. Fork additions live in separate folders:
+
+| Folder | Purpose |
+|---|---|
+| `experiments/baseline_reproduction/` | notes/arg sets for reproducing the paper |
+| `experiments/extensions/` | new experiments, one sub-folder per question |
+| `configs/` | experiment configuration files |
+| `data_analytics/` | post-hoc analysis of `results/` |
+| `tests/` | CPU smoke tests (`pip install -r requirements-dev.txt && pytest`) |
+| `scripts/`, `slurm/` | helper and HPC job scripts |
+| `notebooks/`, `docs/` | exploration and notes |
+| `results/`, `logs/`, `figures/` | outputs (gitignored) |
 
 ## Citation
 

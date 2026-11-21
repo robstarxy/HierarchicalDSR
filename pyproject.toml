@@ -1,0 +1,11 @@
+# Tooling config only. The authors' flat layout (main.py, model.py, ...) is kept
+# as is, so this does not define an installable package; use requirements*.txt
+# for the environment and `pip install -r requirements-dev.txt` for dev tools.
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+# Only lint the extension code; the authors' files are left untouched.
+include = ["experiments/**/*.py", "tests/**/*.py", "data_analytics/**/*.py"]

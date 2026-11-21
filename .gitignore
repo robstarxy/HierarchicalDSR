@@ -1,2 +1,57 @@
 __pycache__
 trained_models
+# Environments and tool caches
+.venv/
+venv/
+.env
+env/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+.ipynb_checkpoints/
+.DS_Store
+*.pyc
+*.pyo
+*.pyd
+build/
+dist/
+.vscode/
+create_venv.sh
+
+# Experiment outputs (regenerate, don't commit)
+results/
+logs/
+figures/
+outputs/
+checkpoints/
+saved_models/
+
+
+# Papers / local reference material
+papers/
+
+# HPC
+slurm-*.out
+*.sbatch
+slurm*
+*.sh
+*.md
+
+# Extension data (the authors' data/lorenz* stays tracked)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+
+# Julia artifacts
+*.ji
+*.jl.cov
+*.jl.mem
+Manifest.toml
+
+
+#internal planning files
+/local_dynamics_plan.md
+*.tex
+*.bib

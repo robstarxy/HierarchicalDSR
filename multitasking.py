@@ -1,5 +1,6 @@
 import multiprocessing as mp
 import subprocess
+import sys
 from typing import List, Tuple
 import numpy as np
 import torch as tc
@@ -101,11 +102,13 @@ def check_arguments_for_gpu(args: List[Argument]) -> bool:
             return False
         elif arg.name == 'use_gpu':
             if  not 0 in arg.values:
-                assert tc.cuda.is_available(),  \
-                    "CUDA is not available."
+                if not tc.cuda.is_available():
+                    print("'use_gpu' flag is set, but CUDA is not "
+                          "available -> running on CPU.")
+                    return False
                 print("'use_gpu' flag is set.")
                 use_gpu = True
-    if use_gpu and tc.cuda.is_available():
+    if use_gpu:
         print("Will distribute tasks to GPUs "
               "automatically.")
     return use_gpu
@@ -162,7 +165,7 @@ def create_tasks_from_arguments(args: List[Argument],
     # check args for gpu usage
     use_gpu = check_arguments_for_gpu(args)
 
-    tasks = [Task(command='python3 main.py', name='')]
+    tasks = [Task(command=f'{sys.executable} main.py', name='')]
     for arg in args:
         tasks = add_argument(tasks, arg)
 

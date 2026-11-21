@@ -1,0 +1,4 @@
+# GPU / HPC install: pip install -r requirements-gpu.txt
+# Pulls the CUDA 12.4 build of torch (and its nvidia-* dependencies automatically).
+--extra-index-url https://download.pytorch.org/whl/cu124
+-r requirements.txt

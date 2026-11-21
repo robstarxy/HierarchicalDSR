@@ -33,7 +33,7 @@ def load_from_path(model, args, checkpoint=None):
     # this way the model can be loaded without the need to use compile again if it was trained with it
     statedict = {k.replace('_orig_mod.', ''): v for k, v in statedict.items()}
     # when finetuning remove p_vector and noise_cov from the state dict
-    if args.finetune:
+    if getattr(args, 'finetune', False):
         statedict.pop('p_vector')
         statedict.pop('noise_cov')
     model.load_state_dict(statedict, strict=False)

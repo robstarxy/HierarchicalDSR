@@ -24,7 +24,7 @@ def parse_args():
     parser.add_argument('--kl_bins', type=int, default=None, help='Number of bins for KL divergence. Default: None (uses the same number of bins as at train time)')
     parser.add_argument('--pse_smooth', type=int, default=None, help='Smoothing sigma for PSE. Default: None (see kl_bins)')
 
-    parser.add_argument('--num_workers', type=int, default=10, help='Number of subprocesses that are spawned. Default: 1')
+    parser.add_argument('--num_workers', type=int, default=1, help='Number of subprocesses that are spawned. Default: 1')
 
     return parser.parse_args()
 
@@ -34,12 +34,14 @@ def handle_path(args):
     runs = []
     while len(stack) > 0:
         path = stack.pop()
-        if path.split('/')[-1] in [str(i).zfill(3) for i in range(1, 1000)]:
+        if not os.path.isdir(path):
+            continue
+        if os.path.basename(os.path.normpath(path)) in [str(i).zfill(3) for i in range(1, 1000)]:
             runs.append(path)
         else:
             for p in os.listdir(path):
                 stack.append(os.path.join(path, p))
-    return [os.path.join(args.model_path, r) for r in runs]
+    return runs
 
 def evaluate_model(args_p):
     """Evaluate a single model at path args.model_path."""
